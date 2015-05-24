@@ -1,0 +1,7 @@
+---
+- name: Install PHP and modules
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items: php_packages
+  notify: Restart apache

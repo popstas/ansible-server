@@ -1,4 +1,4 @@
-- name: Install apache & php packages
-  apt: name={{item}} state=present
-  with_items: apache_php_packages
+---
+- include: apache.yml
+- include: php.yml
 

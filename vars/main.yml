@@ -35,12 +35,52 @@ recommended_packages:
   - tig
   - tmux
 
-apache_php_packages:
+apache_packages:
   - apache2
   - apache2-mpm-itk
   - libapache2-mod-php5
   - libapache2-mod-rpaf
 
+apache_host: 127.0.0.1
+apache_port: 81
+
+apache_modules:
+  - actions.load
+  - alias.conf
+  - alias.load
+  #- auth_basic.load
+  #- authn_file.load
+  #- authz_default.load
+  #- authz_groupfile.load
+  #- authz_host.load
+  #- authz_user.load
+  #- cgi.load
+  - deflate.conf
+  - deflate.load
+  #- dir.conf
+  #- dir.load
+  - env.load
+  - include.load
+  - mime.conf
+  - mime.load
+  - negotiation.conf
+  - negotiation.load
+  - php5.conf
+  - php5.load
+  - reqtimeout.conf
+  - reqtimeout.load
+  - rewrite.load
+  - rpaf.conf
+  - rpaf.load
+  - setenvif.conf
+  - setenvif.load
+  #- ssl.conf
+  - status.conf
+  - status.load
+  #- suexec.load
+  - vhost_alias.load
+
+php_packages:
   - php5
   - php5-cli
   - php5-curl
