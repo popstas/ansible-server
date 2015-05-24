@@ -1,0 +1,3 @@
+- name: Set zsh as default shell for root
+  user: name=root shell=/usr/bin/zsh
+

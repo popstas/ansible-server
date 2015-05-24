@@ -1,0 +1,70 @@
+[mysqld]
+slow_query_log					= 1
+long_query_time					= 5
+slow_query_log_file				= /var/log/mysql/mysqld-slow-query.log
+
+wait_timeout 					= 14400
+
+key_buffer_size					= 64M
+max_allowed_packet 				= 16M
+thread_stack 					= 192K
+thread_cache_size 				= 16
+
+max_connections					= 200
+max_connect_errors				= 9999999
+
+# do not do high: http://www.percona.com/blog/2009/11/16/table_cache-negative-scalability/
+table_cache 					= 128
+table_open_cache 				= 128
+
+# do not set high: http://www.percona.com/blog/2007/08/18/how-fast-can-you-sort-data-with-mysql/
+sort_buffer_size				= 256K
+# do not set high: http://www.percona.com/blog/2007/09/17/mysql-what-read_buffer_size-value-is-optimal/
+read_buffer_size 				= 256K
+join_buffer_size 				= 16M
+read_rnd_buffer_size 			= 16M
+myisam_sort_buffer_size 		= 8M
+tmp_table_size 					= 384M
+max_heap_table_size 			= 384M
+thread_concurrency 				= 6
+
+query_cache_limit 				= 8M
+# do not set high: http://haydenjames.io/mysql-query-cache-size-performance/
+query_cache_size 				= 128M
+query_cache_min_res_unit 		= 512
+
+
+innodb_thread_concurrency 		= 6
+innodb_flush_log_at_trx_commit 	= 2
+innodb_lock_wait_timeout 		= 40
+innodb_buffer_pool_size 		= {{ innodb_buffer_pool_size }}
+innodb_additional_mem_pool_size = 20M
+innodb_log_file_size 			= 256M
+innodb_log_buffer_size 			= 32M
+innodb_flush_method 			= O_DIRECT
+innodb_support_xa 				= 0
+innodb_doublewrite 				= 0
+
+innodb_locks_unsafe_for_binlog 	= 1
+transaction-isolation 			= READ-COMMITTED
+
+
+#table_cache					= 5000
+#max_allowed_packet				= 16M
+#binlog_cache_size				= 1M
+#max_heap_table_size			= 128M
+#sort_buffer_size				= 500K
+#join_buffer_size				= 500K
+#thread_cache_size				= 50
+#thread_concurrency				= 16
+#query_cache_size				= 128M
+#query_cache_limit				= 8M
+#query_cache_min_res_unit		= 2K
+#thread_stack					= 192K
+#tmp_table_size					= 384M
+
+#innodb_additional_mem_pool_size = 80M
+#innodb_buffer_pool_size         = 4G
+#innodb_lock_wait_timeout        = 120
+###innodb_log_file_size			= 128M
+#innodb_flush_log_at_trx_commit	= 2

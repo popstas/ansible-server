@@ -1,0 +1,57 @@
+---
+mysql_root_password: reallylongpassword
+innodb_buffer_pool_size: 250M
+
+common_packages:
+  - aptitude
+  - curl
+  - git
+  - htop
+  - iotop
+  - less
+  - mc
+  - nmap
+  - openssh-server
+  - pv
+  - python-setuptools
+  - screen
+  - sshfs
+  - traceroute
+  - tree
+  - unzip
+  - vim
+  - vnstat
+  - whois
+  - zsh
+
+# not used
+recommended_packages:
+  - build-essential
+  - g++
+  - ipython
+  - nodejs
+  - nodejs-dev
+  - php5-cli
+  - tig
+  - tmux
+
+apache_php_packages:
+  - apache2
+  - apache2-mpm-itk
+  - libapache2-mod-php5
+  - libapache2-mod-rpaf
+
+  - php5
+  - php5-cli
+  - php5-curl
+  - php5-dev
+  #- php5-ffmpeg
+  - php5-gd
+  - php5-imagick
+  - php5-mcrypt
+  - php5-memcache
+  #- php5-memcached
+  - php5-mysql
+  #- php5-snmp
+  #- php5-suhosin
+  - php5-xdebug
