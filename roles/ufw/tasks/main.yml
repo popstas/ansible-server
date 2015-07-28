@@ -1,0 +1,40 @@
+---
+# role requires ansible install to guest
+# http://docs.ansible.com/ufw_module.html
+# https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server
+
+# TODO: check from remote IP
+
+- name: install ufw
+  apt: name=ufw state=latest
+  tags: ufw
+
+- name: Enable firewall, default deny
+  ufw: state=enabled policy=deny
+  tags: ufw
+
+- name: Disable IPV6 filtering
+  replace:
+    dest=/etc/default/ufw
+    regexp="^IPV6=yes"
+    replace="IPV6=no"
+  tags: ufw
+
+- name: limit SSH
+  ufw: rule=limit name=OpenSSH
+  tags: ufw
+
+- name: Allow all access to ports
+  ufw: rule=allow port={{ item }}
+  with_items: ufw_allow_ports
+  tags: ufw
+
+- name: Allow all access to IPs
+  ufw: rule=allow src={{ item }}
+  with_items: ufw_allow_ips
+  tags: ufw
+
+- name: Deny all access to ports
+  ufw: rule=deny port={{ item }}
+  with_items: ufw_deny_ports
+  tags: ufw
