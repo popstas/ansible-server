@@ -1,3 +1,14 @@
 ---
+# TODO service pt-kill restart cannot find /root/.my.cnf
+# Soved: add export HOME=/root to /etc/init.d/pt-kill
+
 - name: restart percona
   action: service name=mysql state=restarted
+
+- name: restart pt-kill
+  command: /etc/init.d/pt-kill restart
+
+- name: restart pt-kill
+  service:
+    name: pt-kill
+    state: restarted

@@ -1,2 +1,77 @@
 ---
 - include: percona.yml
+
+# configure
+
+- name: Write custom server configuration
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0644
+  notify:
+    - restart percona
+  register: mysql_config_status
+  tags: [ mysql ]
+
+- name: Remove default logs
+  file: path={{ item }} state=absent
+  with_items:
+    - /var/log/mysql.log
+    - /var/log/mysql.err
+  tags: [ mysql ]
+
+- name: Stop server for delete binary logs
+  service: name=mysql state=stopped
+  when: mysql_installation|changed or mysql_config_status|changed
+  tags: [ mysql ]
+
+- name: Delete binary logs
+  file: path={{ item }} state=absent
+  with_fileglob:
+    - "{{ mysql_datadir }}/ib_logfile*"
+  when: mysql_installation|changed or mysql_config_status|changed
+  tags: [ mysql ]
+
+#- name: Start server after delete binary logs
+#  service: name=mysql state=started
+#  when: mysql_installation|changed or mysql_config_status|changed
+#  tags: [ mysql ]
+
+- name: Check mysql running
+  service: name=mysql state=started
+  tags: [ mysql ]
+
+- name: Update MySQL root password
+  mysql_user:
+    name=root
+    host={{ item }}
+    password={{ mysql_root_password }}
+    check_implicit_admin=yes
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - localhost
+  tags: [ mysql ]
+
+- name: Copy .my.cnf file into the root home folder
+  template: src=root-my-cnf.j2 dest=/root/.my.cnf owner=root mode=0600
+  tags: [ mysql ]
+
+- name: Ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} state=absent
+  with_items:
+    - "{{ ansible_nodename }}"
+    - localhost
+  tags: [ mysql ]
+
+- name: remove test database
+  mysql_db: name=test state=absent
+  tags: [ mysql ]
+
+
+# need for mysql module
+- name: libmysqlclient-dev
+  apt: name=libmysqlclient-dev state=latest
+  tags: [ mysql ]
+- name: mysql-python
+  pip: name=MySQL-python state=latest
+  tags: [ mysql ]
+
+- include: pt-kill.yml

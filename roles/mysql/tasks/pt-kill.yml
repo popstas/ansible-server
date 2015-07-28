@@ -1,0 +1,19 @@
+---
+- name: create pt-kill database
+  mysql_db:
+    name={{ mysql_ptkill_db }}
+    state=present
+  tags: [ mysql, pt-kill ]
+
+- name: init.d/pt-kill
+  copy: src=pt-kill-init dest=/etc/init.d/pt-kill mode=755
+  tags: [ mysql, pt-kill ]
+
+- name: percona-toolkit config directory
+  file: path=/etc/percona-toolkit state=directory
+  tags: [ mysql, pt-kill ]
+
+- name: pt-kill.conf
+  template: src=pt-kill.conf.j2 dest=/etc/percona-toolkit/pt-kill.conf
+  notify: restart pt-kill
+  tags: [ mysql, pt-kill ]

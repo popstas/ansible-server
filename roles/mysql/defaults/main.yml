@@ -1,3 +1,5 @@
 ---
-mysql_root_password: reallylongpassword
+
+#mysql_root_password: reallylongpassword
+mysql_ptkill_db: percona
 innodb_buffer_pool_size: 2500M
