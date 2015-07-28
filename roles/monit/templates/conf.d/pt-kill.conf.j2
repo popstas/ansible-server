@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+check process pt-kill with pidfile /var/run/pt-kill.pid
+	start program = "/etc/init.d/pt-kill start"
+	stop program  = "/etc/init.d/pt-kill stop"

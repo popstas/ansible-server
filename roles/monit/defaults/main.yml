@@ -1,0 +1,7 @@
+---
+monit_check_filesystems:
+  - { name: rootfs, mountpoint: "/", usage_limit: 90% }
+
+monit_check_hostname: "{{ ansible_nodename }}"
+monit_check_port: 80
+monit_check_request: /

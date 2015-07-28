@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+check process apache2 with pidfile /var/run/apache2/apache2.pid
+	start program = "/etc/init.d/apache2 start" with timeout 5 seconds
+	stop program  = "/etc/init.d/apache2 stop"
+	#stop program  = "/bin/bash -c '/etc/init.d/apache2 stop && sleep 5 && /bin/kill -9 $(/bin/pidof apache2)'"
+	#stop program  = "/bin/bash -c '/etc/init.d/apache2 stop && sleep 5 && /usr/bin/killall -9 apache2'"
+	if failed
+		host {{ monit_check_hostname }}
+		port {{ monit_check_port }}
+	protocol http
+	request "{{ monit_check_request}}"
+	# status = 502 ## version 5.3 required
+	with timeout 30 seconds for 2 cycles
+		then restart
+
+	if children > 200
+		then restart
+
+	if cpu > 90% for 3 cycles
+		then restart
+
+if 3 restarts within 5 cycles
+	then alert

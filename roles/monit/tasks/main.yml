@@ -1,0 +1,19 @@
+---
+
+- name: Install monit
+  apt: name=monit state=latest
+  tags: [ monit ]
+
+- name: monitrc
+  template: src=monitrc.j2 dest=/etc/monit/monitrc
+  notify: restart monit
+  tags: [ monit ]
+
+- name: conf.d
+  template:
+    src={{ item }}
+    dest=/etc/monit/conf.d/{{ item | basename | replace(".j2", "") }}
+  with_fileglob:
+    - "../templates/conf.d/*.j2"
+  notify: restart monit
+  tags: [ monit ]

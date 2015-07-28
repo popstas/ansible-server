@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+if cpu usage (wait) > 50% then alert
+
+{% for item in monit_check_filesystems %}
+check device {{ item.name }} with path {{ item.mountpoint }}
+	if space usage > {{ item.usage_limit | default("90%") }} then alert
+
+{% endfor %}
