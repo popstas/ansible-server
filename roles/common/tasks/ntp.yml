@@ -1,0 +1,14 @@
+---
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-ubuntu-12-04
+# https://github.com/resmo/ansible-role-ntp
+# http://help.ubuntu.ru/wiki/%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BF%D0%BE_ubuntu_server/%D1%81%D0%B5%D1%82%D1%8C/ntp
+
+- name: Install NTP
+  apt: name=ntp state=present
+  tags: [ common, ntp ]
+
+- name: Copy the ntp.conf template file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+  - restart ntp
+  tags: [ common, ntp ]

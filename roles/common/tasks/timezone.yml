@@ -1,0 +1,6 @@
+---
+# TODO: timezone not applies, need to manual exec "dpkg-reconfigure --frontend noninteractive tzdata"
+- name: Set timezone
+  template: src=timezone.j2 dest=/etc/timezone
+  notify: update timezone
+  tags: [ common, timezone ]

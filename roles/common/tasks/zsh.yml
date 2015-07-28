@@ -1,3 +1,62 @@
-- name: Set zsh as default shell for root
-  user: name=root shell=/usr/bin/zsh
+---
+# TODO: этот конфиг надо применять: к root, к юзеру, который доступен после создания машины, к юзеру сайта. Надо как-то обобщить это
 
+- name: Clone oh-my-zsh repo
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh.git
+    dest={{ zsh_oh_my_zsh_path }}
+    version=a207a38d63
+  tags: [ common, zsh ]
+
+- name: Clone zsh-config
+  git:
+    repo=https://github.com/popstas/zsh-config.git
+    dest={{ zsh_config_path }}
+    version=e573ca1ce4
+  tags: [ common, zsh ]
+
+
+- name: symlink zshrc for all
+  file: path=/etc/skel/.zshrc src={{ zsh_config_path }}/.zshrc state=link
+  tags: [ common, zsh ]
+
+
+- name: Check zshrc
+  stat: path=/home/{{ username }}/.zshrc
+  register: st
+  when: username != "root"
+  tags: [ common, zsh ]
+
+- name: remove standard zshrc if it is not link
+  file: path=/home/{{ username }}/.zshrc state=absent
+  when: username != "root" and st.stat.exists and not st.stat.islnk
+  tags: [ common, zsh ]
+
+- name: symlink zshrc
+  file: path=/home/{{ username }}/.zshrc src={{ zsh_config_path }}/.zshrc state=link owner={{ username }}
+  when: username != "root"
+  tags: [ common, zsh ]
+
+- name: Set zsh as default shell
+  user: name={{ username }} shell=/bin/zsh
+  when: username != "root"
+  tags: [ common, zsh ]
+
+
+- name: Check zshrc for root
+  stat: path=/root/.zshrc
+  register: st
+  tags: [ common, zsh ]
+
+- name: remove standard zshrc for root if it is not link
+  file: path=/root/.zshrc state=absent
+  when: st.stat.exists and not st.stat.islnk
+  tags: [ common, zsh ]
+
+- name: symlink zshrc for root
+  file: path=/root/.zshrc src={{ zsh_config_path }}/.zshrc state=link owner=root
+  tags: [ common, zsh ]
+
+- name: Set zsh as default shell for root
+  user: name=root shell=/bin/zsh
+  tags: [ common, zsh ]

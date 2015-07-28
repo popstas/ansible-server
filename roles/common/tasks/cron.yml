@@ -1,0 +1,27 @@
+---
+- name: Add environment to crontab
+  lineinfile:
+    dest=/var/spool/cron/crontabs/root
+    create=yes owner=root group=root mode=0600
+    regexp="{{ item.regexp }}"
+    line="{{ item.line }}"
+    insertbefore=BOF
+  with_items:
+    - { regexp: "^MAILTO=", line: "MAILTO='{{ mailto }}'" }
+    - { regexp: "^PATH=", line: "PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin'" }
+  tags: [ common, cron ]
+
+- name: Add cronjobs
+  cron:
+    user=root
+    name="{{ item.name }}"
+
+    weekday="{{ item.weekday|default ('*') }}"
+    day="{{ item.day|default ('*') }}"
+    hour="{{ item.hour|default ('*') }}"
+    minute="{{ item.minute|default ('*') }}"
+
+    job="{{ item.job }}"
+    state=present
+  with_items: other_cronjobs
+  tags: [ common, cron ]

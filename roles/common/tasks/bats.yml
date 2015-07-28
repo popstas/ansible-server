@@ -1,0 +1,13 @@
+---
+- name: Sync bats
+  git:
+    repo=https://github.com/sstephenson/bats.git
+    dest=/usr/local/src/bats
+    version=v0.4.0
+  tags: [ common, bats ]
+
+- name: Install bats
+  command:
+    /usr/local/src/bats/install.sh /usr/local
+    creates=/usr/local/libexec/bats
+  tags: [ common, bats ]

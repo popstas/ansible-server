@@ -1,0 +1,9 @@
+---
+
+- name: Remove skel files
+  file: path={{ item }} state=absent
+  with_items:
+    - /etc/skel/.bash_logout
+    - /etc/skel/.bashrc
+    - /etc/skel/.profile
+  tags: [ common, users ]

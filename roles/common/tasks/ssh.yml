@@ -1,0 +1,40 @@
+---
+# TODO: папку с ключами надо вынести из common в более общее место, возможно, в group_vars
+# папка лежит в /files всего дерева
+# TODO: убрать копипасту для двух юзеров
+
+- name: Add ssh public keys to root
+  authorized_key:
+    user=root
+    key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - "{{ ssh_public_keys_dir }}/*"
+  tags: [ common, ssh ]
+
+- name: Remove old ssh public keys from root
+  authorized_key:
+    user=root
+    key="{{ lookup('file', item) }}"
+    state=absent
+  with_fileglob:
+    - "{{ ssh_public_keys_removed_dir }}/*"
+  tags: [ common, ssh ]
+
+- name: Add ssh public keys to user
+  authorized_key:
+    user={{ username }}
+    key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - "{{ ssh_public_keys_dir }}/*"
+  when: ansible_user_id != "root"
+  tags: [ common, ssh ]
+
+- name: Remove old ssh public keys from user
+  authorized_key:
+    user={{ username }}
+    key="{{ lookup('file', item) }}"
+    state=absent
+  with_fileglob:
+    - "{{ ssh_public_keys_removed_dir }}/*"
+  when: ansible_user_id != "root"
+  tags: [ common, ssh ]

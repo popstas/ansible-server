@@ -1,28 +1,10 @@
-- name: Update system packages
-  apt:
-        upgrade=safe
-        update_cache=yes
-        cache_valid_time=3600
-
-- name: Install common packages
-  apt: name={{item}} state=present
-  with_items: common_packages
-
-#- name: Remove apt pip
-#  apt: name=python-pip
-#       state=absent
-
-- name: Install easy_install pip
-  easy_install: name=pip
-
-- name: zsh facts
-  shell: 'echo $SHELL'
-  register: default_shell
-  changed_when: False
-  sudo: no
-
-
-#- name: make zsh default
-#  shell: chsh -s /bin/zsh {{username}}
-#  when: default_shell.stdout.find('/bin/zsh') == -1
-
+---
+- include: packages.yml
+- include: timezone.yml
+- include: ntp.yml
+- include: ssh.yml
+- include: vim.yml
+- include: users.yml
+- include: zsh.yml
+- include: bats.yml
+- include: cron.yml

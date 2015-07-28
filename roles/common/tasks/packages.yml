@@ -1,0 +1,61 @@
+---
+
+- name: Update system packages
+  apt:
+        upgrade=safe
+        update_cache=yes
+        cache_valid_time=3600
+  tags: [ common, packages ]
+
+- name: Install common packages
+  apt: name={{item}} state=latest
+  with_items:
+    - apt-transport-https
+    - aptitude
+    - curl
+    - git
+    - grc
+    - htop
+    - iotop
+    - less
+    - mc
+    - mtr
+    - ncdu
+    - nmap
+    - openssh-server
+    - pv
+    - python-setuptools
+    - screen
+    - sshfs
+    - traceroute
+    - tree
+    - unzip
+    - vim
+    - vnstat
+    - whois
+    - zsh
+  tags: [ common, packages ]
+
+- name: Install dev packages
+  apt: name={{item}} state=latest
+  with_items:
+    - build-essential
+    - g++
+    - ipython
+    #- nodejs
+    #- nodejs-dev
+    - php5-cli
+    - python-dev
+    #- tig
+    #- tmux
+  tags: [ common, packages ]
+
+- name: Install easy_install pip
+  easy_install: name=pip
+  tags: [ common, packages ]
+
+- name: Install pip packages
+  pip: name={{ item }} state=latest
+  with_items:
+    #- fpp # https://github.com/facebook/PathPicker
+    - glances # https://github.com/nicolargo/glances
