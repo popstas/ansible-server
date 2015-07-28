@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+# all
+MAILTO="{{ mailto }}"
+
+# dbdump, dbundump
+DB_BACKUPS_ROOT="{{ backups_mysql_dir }}"
+DB_BACKUPS_LOG="/var/log/mysql/mysql_backup.log"
+DB_BACKUPS_SEND_HOUR="{{ backups_mysql_send_hour }}"
+
+DB_BACKUPS_REMOTE_USER="{{ backups_mysql_remote_user }}"
+DB_BACKUPS_REMOTE_HOST="{{ backups_mysql_remote_host }}"
+DB_BACKUPS_REMOTE_DIR="{{ backups_mysql_remote_dir }}"
+
+DB_BACKUPS_EXCLUDED_DBS="_test$"
+
+# db-size
+DB_SIZE_NAMES_FILE="{{ private_log_dir }}/drupal_dbs.log"
+DB_SIZE_SIZES_FILE="{{ private_log_dir }}/drupal_dbs_sizes.log"
+DB_SIZE_CACHE_MINS=30
+
+# detect-viruses
+VIRUSES_LOG="/var/log/viruses.log"
+VIRUSES_PHP_SIGNATURES="eval(base64_decode\|'base'.(32*2\|eval(stripslashes\|FilesMan\|WSO_VERSION\|$sF=\"PCT4BA6ODSE_\"\|$qV=\"stop_\""
+VIRUSES_JS_SIGNATURES="document.write(unescape"
+
+# drupal-enable-caches
+DRUPAL_CACHE_LIFETIME=300
+DRUPAL_PAGE_CACHE_MAXIMUM_AGE=1800
+
+# drupal-get-drupals
+DRUPAL_ROOT_LEVEL=4 # for /home/user/www/example.com
+DRUPAL_EXCLUDED_FILE=".excluded"
+
+# get-password
+PASSWORD_LENGTH=12
+
+# ssh-add-keys
+SSH_PUBLIC_KEYS_DIR="{{ ssh_public_keys_dir }}"
