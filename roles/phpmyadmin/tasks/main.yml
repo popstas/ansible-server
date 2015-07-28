@@ -1,0 +1,45 @@
+---
+# https://github.com/debops/ansible-phpmyadmin
+
+- name: Install dbconfig-common
+  apt: pkg=dbconfig-common state=latest install_recommends=no
+  tags: [ phpmyadmin ]
+
+- name: Pre-configure PHPMyAdmin database
+  template: src=phpmyadmin.conf.j2
+            dest=/etc/dbconfig-common/phpmyadmin.conf
+            owner=root group=root mode=0600
+  tags: [ phpmyadmin ]
+
+- name: Install PHPMyAdmin packages
+  apt: pkg=phpmyadmin state=latest install_recommends=no
+  tags: [ phpmyadmin ]
+
+- name: Create database for PHPMyAdmin
+  mysql_db: name=phpmyadmin state=present
+  register: phpmyadmin_database
+  tags: [ phpmyadmin ]
+
+- name: Import PHPMyAdmin schema
+  mysql_db: name=phpmyadmin state=import
+            target=/usr/share/dbconfig-common/data/phpmyadmin/install/mysql
+  when: phpmyadmin_database is defined and phpmyadmin_database.changed == True
+  tags: [ phpmyadmin ]
+
+- name: Create PHPMyAdmin control user
+  mysql_user: name=phpmyadmin state=present
+              password={{ phpmyadmin_control_password }} priv='phpmyadmin.*:ALL'
+  tags: [ phpmyadmin ]
+
+- name: Apache config
+  template: src=phpmyadmin-apache.conf.j2 dest=/etc/apache2/conf-available/phpmyadmin.conf
+  notify: reload apache2
+  tags: [ phpmyadmin, apache ]
+
+- name: Apache enable config
+  file:
+    src=/etc/apache2/conf-available/phpmyadmin.conf
+    dest=/etc/apache2/conf-enabled/phpmyadmin.conf
+    state=link
+  notify: reload apache2
+  tags: [ phpmyadmin, apache ]
