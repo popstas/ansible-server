@@ -1,0 +1,12 @@
+---
+- name: Sync drall
+  git:
+    repo=https://github.com/popstas/drall.git
+    dest=/usr/local/src/drall
+    version=98f81906fc
+
+- name: Link to drall
+  file:
+    src=/usr/local/src/drall/drall
+    dest=/usr/local/bin/drall
+    state=link

@@ -1,7 +1,31 @@
 ---
+#
+# TODO: mcrypt (was enabled) - нужен для phpmyadmin
+# session.gc_probability (правильно 0, т.к. в debian/ubuntu чистится через /etc/cron.d/php5 раз в полчаса за session.gc_maxlifetime)
+
 - name: Install PHP and modules
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-  with_items: php_packages
+  apt: pkg="{{ item }}" state=latest
+  with_items:
+    - php5
+    - php5-cli
+    - php5-curl
+    - php5-dev
+    #- php5-ffmpeg
+    - php5-fpm
+    - php5-gd
+    - php5-imagick
+    - mcrypt
+    - php5-mcrypt
+    - php5-memcache
+    #- php5-memcached
+    - php5-mysql
+    #- php5-snmp
+    #- php5-suhosin
+    - php5-xdebug
   notify: Restart apache
+
+- name: set php.ini
+  template: src=php.ini.j2 dest=/etc/php5/apache2/php.ini
+
+- name: set xdebug.ini
+  template: src=xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini

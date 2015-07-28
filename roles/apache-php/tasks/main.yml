@@ -1,4 +1,7 @@
 ---
 - include: apache.yml
 - include: php.yml
+- include: drall.yml
 
+#- include: composer.yml
+#- include: drush.yml
