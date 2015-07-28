@@ -1,0 +1,4 @@
+---
+- name: Install package
+  apt: name=memcached state=latest
+  tags: memcached
