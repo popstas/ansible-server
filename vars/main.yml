@@ -1,45 +1,71 @@
 ---
-mysql_root_password: reallylongpassword
+
+#user: ubuntu # for ansible?
+username: "{{ ansible_user_id }}" # for tasks
+nginx_user: www-data
+
+author_name: popstas
+mailfrom: root@tagilcity.ru
+mailto: admin@tagilcity.ru
+private_log_dir: /root/log
+
+locales_present:
+  - en_US.UTF-8
+  - ru_RU.UTF-8
+locales_language_packs_present:
+  - language-pack-en
+  - language-pack-en-base
+  - language-pack-ru
+  - language-pack-ru-base
+
+timezone: 'Asia/Yekaterinburg'
+ntp_config_server: [ '0.ubuntu.pool.ntp.org', '1.ubuntu.pool.ntp.org', '2.ubuntu.pool.ntp.org', '3.ubuntu.pool.ntp.org' ]
+
+# dns
+
+
+# exim email
+exim4_sender_hostname: "{{ ansible_nodename }}"
+
+# mysql
+mysql_datadir: /var/lib/mysql
 innodb_buffer_pool_size: 250M
+mysql_ptkill_db: percona
 
-common_packages:
-  - aptitude
-  - curl
-  - git
-  - htop
-  - iotop
-  - less
-  - mc
-  - nmap
-  - openssh-server
-  - pv
-  - python-setuptools
-  - screen
-  - sshfs
-  - traceroute
-  - tree
-  - unzip
-  - vim
-  - vnstat
-  - whois
-  - zsh
 
-# not used
-recommended_packages:
-  - build-essential
-  - g++
-  - ipython
-  - nodejs
-  - nodejs-dev
-  - php5-cli
-  - tig
-  - tmux
+# monit
+monit_check_filesystems:
+  - { name: rootfs, mountpoint: "/", usage_limit: 90% }
+monit_check_hostname: viasite.ru
+monit_check_port: 80
+monit_check_request: /monit/token
 
-apache_packages:
-  - apache2
-  - apache2-mpm-itk
-  - libapache2-mod-php5
-  - libapache2-mod-rpaf
+
+zsh_config_path: /etc/zsh-config
+
+# backups
+backups_user: root
+backups_dir: /var/backups
+backups_mysql_dir: "{{ backups_dir }}/sql"
+backups_mysql_remote_user: "{{ backups_user }}"
+backups_mysql_remote_host: tagilcity.ru
+backups_mysql_remote_dir: "{{ backups_mysql_dir }}/{{ ansible_fqdn }}"
+backups_mysql_send_hour: 5 # TODO: not used
+backups_mysql_cronjobs:
+  - { name: "mysql_backup backup", minute: 32, hour: "5,8,12,16,21",  job: "ionice -c3 mysql_backup backup" }
+  - { name: "mysql_backup send",   minute: 42, hour: "5",             job: "ionice -c3 mysql_backup send" }
+  - { name: "mysql_backup clean",  minute: 52, hour: "5",             job: "ionice -c3 mysql_backup clean" }
+
+aws_s3_region: "us-west-2"
+
+
+
+other_cronjobs:
+  - { name: "detect-viruses", minute: 40, hour: "3",             job: "ionice -c3 detect-viruses /home" }
+
+
+ssh_public_keys_dir: ~/.ssh/public-keys
+ssh_public_keys_removed_dir: ~/.ssh/public-keys-removed
 
 apache_host: 127.0.0.1
 apache_port: 81
@@ -63,6 +89,7 @@ apache_modules:
   - include.load
   - mime.conf
   - mime.load
+  - mpm_itk.load # TODO: check it works
   - negotiation.conf
   - negotiation.load
   - php5.conf
@@ -70,8 +97,10 @@ apache_modules:
   - reqtimeout.conf
   - reqtimeout.load
   - rewrite.load
-  - rpaf.conf
-  - rpaf.load
+  - remoteip.conf
+  - remoteip.load
+  #- rpaf.conf # replaced with remoteip in apache 2.4
+  #- rpaf.load
   - setenvif.conf
   - setenvif.load
   #- ssl.conf
@@ -80,18 +109,82 @@ apache_modules:
   #- suexec.load
   - vhost_alias.load
 
-php_packages:
-  - php5
-  - php5-cli
-  - php5-curl
-  - php5-dev
-  #- php5-ffmpeg
-  - php5-gd
-  - php5-imagick
-  - php5-mcrypt
-  - php5-memcache
-  #- php5-memcached
-  - php5-mysql
-  #- php5-snmp
-  #- php5-suhosin
-  - php5-xdebug
+
+# firewall
+ufw_allow_ports:
+  - 53
+  - 80
+  - 443
+
+ufw_deny_ports:
+  - 2000
+  - 2003
+
+ufw_allow_ips:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+
+
+# diamond, graphite, grafana
+grafana_domain: grafana.{{ ansible_nodename }}
+graphite_domain: graphite.{{ ansible_nodename }}
+
+
+diamond_collectors:
+  CPUCollector:
+    enabled: True
+    percore: False
+  DiskSpaceCollector:
+    enabled: True
+  DiskUsageCollector:
+    enabled: True
+  LoadAverageCollector:
+    enabled: True
+  MemoryCollector:
+    enabled: True
+  NetworkCollector:
+    enabled: True
+  VMStatCollector:
+    enabled: True
+
+  # experimental
+
+  EximCollector:
+    enabled: True
+  FilestatCollector:
+    enabled: True
+    user_include: ''
+  HttpdCollector:
+    enabled: True
+    urls: "localhost http://{{ apache_host }}:{{ apache_port }}/server-status?auto=1"
+  MemcachedCollector:
+    enabled: True
+    hosts: "localhost:11211"
+
+  NginxCollector:
+    enabled: True
+    req_path: "/server-status"
+    req_port: 80
+  SmartCollector:
+    enabled: True
+  TCPCollector:
+    enabled: True
+  UptimeCollector:
+    enabled: True
+
+  # https://kb.isc.org/article/AA-00769/0/Using-BINDs-XML-statistics-channels.html
+  #BindCollector:
+  #  enabled: True
+  # not work
+  ConnTrackCollector:
+    enabled: True
+  # not work
+  MySQLCollector:
+    enabled: True
+  # not work
+  SolrCollector:
+    enabled: True
+  # not work
+  UsersCollector:
+    enabled: True

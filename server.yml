@@ -1,0 +1,34 @@
+---
+- hosts: all
+  remote_user: root #ubuntu
+  #sudo: yes
+
+  vars_files:
+    - vars/main.yml
+    #- vars/private.yml
+    - vars/crypted.yml
+
+  roles:
+    # required by webserver
+    - common
+    #- dns
+    - apache-php
+    - phpmyadmin
+    - mysql
+    - nginx
+    - backups
+    - server-scripts
+    - exim
+    - docker
+    - locales
+    - memcached
+
+    # monitoring
+    - diamond
+    #- docker-grafana
+    #- docker-graphite
+    - monit
+    - ufw
+
+    # other
+    - ansible

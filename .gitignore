@@ -1,1 +1,4 @@
 .vagrant
+
+vars/private.yml
+.vault_pass.txt
