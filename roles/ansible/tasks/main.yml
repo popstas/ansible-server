@@ -1,0 +1,6 @@
+---
+- name: Install python dev
+  apt: name=python-dev
+
+- name: Install ansible
+  pip: name=ansible
