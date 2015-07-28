@@ -1,0 +1,4 @@
+---
+- name: restart diamond
+  #service: name=diamond state=restarted
+  command: "/etc/init.d/diamond restart"

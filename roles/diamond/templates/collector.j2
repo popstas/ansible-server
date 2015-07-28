@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for (k1,v1) in item['value']|dictsort %}
+{{k1}}={{v1}}
+{% endfor %}

@@ -1,0 +1,17 @@
+---
+diamond_collector_conf_path: /etc/diamond/collectors
+diamond_collectors:
+  CPUCollector:
+    enabled: True
+  DiskSpaceCollector:
+    enabled: True
+  DiskUsageCollector:
+    enabled: True
+  LoadAverageCollector:
+    enabled: True
+  MemoryCollector:
+    enabled: True
+  NetworkCollector:
+    enabled: True
+  VMStatCollector:
+    enabled: True

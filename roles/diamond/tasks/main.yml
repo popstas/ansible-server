@@ -1,0 +1,50 @@
+---
+# if build froom source, it installs to /usr/share
+# if install from pip, it installs to /usr/local/share and enables all collectors in /etc/diamond/collectors
+
+- name: Install required packages
+  pip: name={{ item }} state=latest
+  with_items:
+    - psutil
+    - configobj
+  tags: diamond
+
+- name: Install package
+  pip: name=diamond state=latest
+
+- name: create directories
+  file: path={{ item }} state=directory mode=700
+  with_items:
+    - /etc/diamond
+    - /etc/diamond/collectors
+    - /var/log/diamond
+  tags: diamond
+
+- name: Config
+  template: src=diamond.conf.j2 dest=/etc/diamond/diamond.conf
+  notify: restart diamond
+  tags: diamond
+
+- name: init.d/diamond
+  copy: src=diamond-init dest=/etc/init.d/diamond mode=755
+  tags: diamond
+
+- name: upstart diamond
+  copy: src=diamond-upstart.conf dest=/etc/init/diamond.conf mode=755
+  tags: diamond
+
+# remove default incorrect settings,
+# see https://github.com/BrightcoveOS/Diamond/issues/800
+- name: remove Handler configs
+  file: path=/etc/diamond/handlers/{{ item }}.conf state=absent
+  with_items:
+    - GraphiteHandler
+    - ArchiveHandler
+  tags: diamond
+
+- name: Configuring default collectors
+  template: src=collector.j2 dest="{{ diamond_collector_conf_path }}/{{ item.key }}.conf"
+  with_dict: diamond_collectors
+  #when: "item.key not in diamond_collectors.keys()"
+  notify: restart diamond
+  tags: diamond
