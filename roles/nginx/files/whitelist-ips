@@ -1,0 +1,6 @@
+allow 127.0.0.1; #local
+allow 89.108.108.102; #server1
+allow 213.5.132.30; #office
+allow 95.82.201.5; #p1
+allow 37.98.249.161; #alexandra@tagilcity.ru
+deny all;

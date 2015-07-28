@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+# default hostname proxies all to apache
+server {
+	server_name {{ ansible_nodename }};
+	listen 80;
+	location / {
+		access_log off;
+		proxy_pass http://{{ apache_host }}:{{ apache_port }};
+		include proxy_params;
+	}
+}
+
+# TODO: move this subdomains to their roles
+
+server {
+	server_name graphite.{{ ansible_nodename }};
+	listen 80;
+	location / {
+		access_log off;
+		proxy_pass http://localhost:2000; # TODO: replace to graphite_host
+		include proxy_params;
+	}
+}
+
+server {
+	server_name {{ grafana_domain }};
+	listen 80;
+	location / {
+		access_log off;
+		proxy_pass http://localhost:3000; # TODO: replace to grapfana_host
+		include proxy_params;
+	}
+}
+
+ # TODO: dockerui, docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui
+ server {
+	server_name dockerui.{{ ansible_nodename }};
+	listen 80;
+	location / {
+		access_log off;
+		proxy_pass http://localhost:9000; # TODO: replace to dockerui_host
+		include proxy_params;
+	}
+}

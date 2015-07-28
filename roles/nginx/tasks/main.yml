@@ -1,5 +1,53 @@
 ---
+# http://habrahabr.ru/post/145241/ - nginx-naxsi, но здесь пишут, что naxsi прожорлив, и содержит меньше модулей, чем nginx-full - http://askubuntu.com/questions/553937/what-is-the-difference-between-the-core-full-extras-and-light-packages-for-ngi
+# TODO: сделать, чтобы сайт блокировался на офис, если в корне лежит файл .locked
+# TODO: nginx reload не выдает ошибки, а молча пишет в error.log
+# TODO: move deny ips and whitelist ips to config
+
 - name: Install Nginx
-  action: apt pkg={{ item }} state=latest
+  action: apt name={{ item }} state=latest
   with_items:
-          - nginx-full
+    - nginx-full
+
+- name: Nginx main config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: reload nginx
+
+- name: conf.server.d directory
+  file: path=/etc/nginx/conf.server.d state=directory
+
+- name: Copy upstream settings
+  template:
+    src: 000-settings-upsetream.j2
+    dest: /etc/nginx/conf.server.d/000-settings-upsetream
+
+- name: Copy whitelist-ips
+  copy: src=whitelist-ips dest=/etc/nginx/
+
+- name: Copy other conf.server.d/*
+  copy:
+    src: "{{ item }}"
+    dest: /etc/nginx/conf.server.d/
+  with_fileglob:
+    - conf.server.d/*
+
+- name: Disable default nginx site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify: reload nginx
+
+- name: Site-proxy to apache2
+  template:
+    src: 000-main-site.j2
+    dest: /etc/nginx/sites-available/000-main-site
+  notify: reload nginx
+
+- name: Enable site-proxy
+  file:
+    src: /etc/nginx/sites-available/000-main-site
+    dest: /etc/nginx/sites-enabled/000-main-site
+    state: link
+  notify: reload nginx

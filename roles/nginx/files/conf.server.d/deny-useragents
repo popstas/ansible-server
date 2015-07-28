@@ -1,0 +1,3 @@
+if ($http_user_agent ~ (MJ12bot|AhrefsBot|URLGrabber|MegaIndex.ru) ) {
+    return 403;
+}
