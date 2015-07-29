@@ -22,16 +22,6 @@ server {
 	}
 }
 
-server {
-	server_name {{ grafana_domain }};
-	listen 80;
-	location / {
-		access_log off;
-		proxy_pass http://localhost:3000; # TODO: replace to grapfana_host
-		include proxy_params;
-	}
-}
-
  # TODO: dockerui, docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui
  server {
 	server_name dockerui.{{ ansible_nodename }};
