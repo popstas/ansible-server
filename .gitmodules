@@ -10,3 +10,6 @@
 [submodule "roles/exim4"]
 	path = roles/exim4
 	url = https://github.com/popstas/ansible-role-exim4-sender.git
+[submodule "roles/nginx"]
+	path = roles/nginx
+	url = https://github.com/popstas/ansible-role-nginx.git
