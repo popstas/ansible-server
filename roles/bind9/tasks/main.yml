@@ -1,0 +1,8 @@
+---
+# https://www.digitalocean.com/community/tutorials/how-to-setup-dns-slave-auto-configuration-using-virtualmin-webmin-on-ubuntu
+# https://github.com/resmo/ansible-role-bind
+
+- name: Install bind
+  apt: name=bind9 state=present
+
+# todo: slave server
