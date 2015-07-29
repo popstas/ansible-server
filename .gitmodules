@@ -1,6 +1,3 @@
-[submodule "roles/exim"]
-	path = roles/exim
-	url = https://github.com/WebbyLab/ansible-role-exim4-sender.git
 [submodule "roles/dns"]
 	path = roles/dns
 	url = https://github.com/jdauphant/ansible-role-dns.git
@@ -10,3 +7,6 @@
 [submodule "roles/docker"]
 	path = roles/docker
 	url = https://github.com/popstas/ansible-role-docker.git
+[submodule "roles/exim4"]
+	path = roles/exim4
+	url = https://github.com/popstas/ansible-role-exim4-sender.git
