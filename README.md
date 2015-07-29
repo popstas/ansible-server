@@ -2,7 +2,8 @@
 
 
 # Playbooks
-- server.yml - настраивает сервер
+- server.yml - setup production server
+- dev-server.yml - setup develop server
 
 # Vars
 - vars/main.yml - все основные переменные, должны быть общими для всех хостов
@@ -84,3 +85,4 @@ Install common packages
 - [ ] правило для ansible-lint, чтобы проверять, стоит ли тег роли у каждой задачи
 - [ ] Проставить теги во все таски
 - [ ] Уникальные для серверов переменные и общие для всех наших серверов переменные нужно разделить
+- [ ] Install [docker-compose](https://docs.docker.com/compose/install/)
