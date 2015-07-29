@@ -1,0 +1,21 @@
+settings {
+    logfile = "/var/log/lsyncd/lsyncd.log",
+    statusFile = "/var/log/lsyncd/lsyncd-status.log",
+    statusInterval = 20,
+    maxDelays	= 1000,
+}
+s3sync = {
+    maxProcesses = 1,
+    onStartup = "aws s3 sync ^source ^target --acl 'private' --delete",
+    onCreate  = "[ -f ^source^pathname ] && aws s3 cp ^source^pathname ^target^pathname --acl \"private\" || true",
+    onModify  = "[ -f ^source^pathname ] && aws s3 cp ^source^pathname ^target^pathname --acl \"private\" || true",
+    onDelete  = "[ ! -e ^source^pathname ] && aws s3 rm ^target^pathname  || true",
+}
+
+# TODO: lsyncd config template
+sync {
+    s3sync,
+    source = "{{ backups_lsyncd_source }}",
+    target = "{{ backups_lsyncd_target }}",
+    delay = 10,
+}

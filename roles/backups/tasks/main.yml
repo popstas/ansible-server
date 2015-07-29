@@ -1,0 +1,29 @@
+---
+- include: lsyncd.yml
+- include: rsnapshot.yml
+
+- name: Backup directories
+  file:
+    path={{ item }}
+    state=directory
+    owner={{ backups_user }}
+    mode=510
+  with_items:
+    - "{{ backups_dir }}"
+    - "{{ backups_mysql_dir }}"
+  tags: [ backups ]
+
+- name: Cron mysql backups
+  cron:
+    user="{{ backups_user }}"
+    name="{{ item.name }}"
+
+    weekday="{{ item.weekday|default ('*') }}"
+    day="{{ item.day|default ('*') }}"
+    hour="{{ item.hour|default ('*') }}"
+    minute="{{ item.minute|default ('*') }}"
+
+    job="{{ item.job }}"
+    state=present
+  with_items: backups_mysql_cronjobs
+  tags: [ backups, cron ]

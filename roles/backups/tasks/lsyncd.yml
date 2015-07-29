@@ -1,0 +1,30 @@
+---
+# TODO: настроить бекап на s3
+
+- name: Install lsyncd
+  apt: name=lsyncd state=latest
+  tags: [ backups, lsyncd ]
+
+#- name: Init script
+#  template: src=lsyncd-init.j2 dest=/etc/init.d/lsyncd
+
+- name: config directory
+  file: path=/etc/lsyncd state=directory
+  tags: [ backups, lsyncd ]
+
+- name: config
+  template: src=lsyncd.conf.lua.j2 dest=/etc/lsyncd/lsyncd.conf.lua
+  tags: [ backups, lsyncd ]
+
+- name: log directory
+  file: path=/var/log/lsyncd/ state=directory
+  tags: [ backups, lsyncd ]
+
+- name: AWS config directory
+  file: path=/root/.aws state=directory
+  tags: [ backups, lsyncd, aws ]
+
+- name: AWS config
+  template: src=aws_config.j2 dest=/root/.aws/config
+  tags: [ backups, lsyncd, aws ]
+

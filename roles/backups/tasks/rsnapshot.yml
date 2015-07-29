@@ -1,0 +1,6 @@
+---
+# TODO: взять https://github.com/debops/ansible-rsnapshot ?
+
+- name: Install rsnapshot
+  apt: name=rsnapshot state=latest
+  tags: [ backups, rsnapshot ]
