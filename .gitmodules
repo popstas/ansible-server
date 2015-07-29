@@ -7,3 +7,6 @@
 [submodule "roles/locales"]
 	path = roles/locales
 	url = https://github.com/Oefenweb/ansible-locales.git
+[submodule "roles/docker"]
+	path = roles/docker
+	url = https://github.com/popstas/ansible-role-docker.git
