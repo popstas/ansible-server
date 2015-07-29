@@ -58,6 +58,9 @@ backups_mysql_cronjobs:
 
 aws_s3_region: "us-west-2"
 
+backups_lsyncd_source: /home/ec2-user/test
+backups_lsyncd_target: "s3://tagilcity-backups/backup-folder"
+
 
 
 other_cronjobs:

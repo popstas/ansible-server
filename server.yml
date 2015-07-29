@@ -1,4 +1,5 @@
 ---
+  # user ubuntu with sudo need for first run on aws
 - hosts: all
   remote_user: root #ubuntu
   #sudo: yes
@@ -18,17 +19,18 @@
     - nginx
     - backups
     - server-scripts
-    - exim
+    - exim4
     - docker
     - locales
     - memcached
+    - ufw
 
     # monitoring
     - diamond
+    #- bind9
     #- docker-grafana
     #- docker-graphite
     - monit
-    - ufw
 
     # other
     - ansible
