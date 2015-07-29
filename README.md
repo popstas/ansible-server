@@ -50,7 +50,7 @@ vagrant halt && vagrant up --provision
 
 ## Quick provision to vagrant
 ```
-ansible-playbook server.yml -i hosts --limit vagrant -vv -u root
+ansible-playbook server.yml --vault-password-file .vault_pass.txt -i hosts --limit vagrant -vv -u root
 ```
 
 
