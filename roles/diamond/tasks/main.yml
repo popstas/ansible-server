@@ -11,6 +11,7 @@
 
 - name: Install package
   pip: name=diamond state=latest
+  tags: diamond
 
 - name: create directories
   file: path={{ item }} state=directory mode=700

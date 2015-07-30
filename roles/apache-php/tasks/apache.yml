@@ -7,7 +7,7 @@
   apt:
     pkg: libapache2-mpm-itk
     state: latest
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: Install Apache2 and modules
   apt:
@@ -18,13 +18,13 @@
     - apache2-mpm-itk
     - libapache2-mod-php5
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: remoteip config
   template:
     src: remoteip.conf.j2
     dest: /etc/apache2/mods-available/remoteip.conf
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 
 - name: Enable apache2 modules
@@ -34,32 +34,32 @@
     state: link
   with_items: apache_modules
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: Disable default apache site
   file:
     path: "/etc/apache2/sites-enabled/000-default.conf"
     state: absent
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: Disable default-ssl apache site
   file:
     path: "/etc/apache2/sites-enabled/default-ssl.conf"
     state: absent
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: Configure Apache
   template:
     src: apache2.conf.j2
     dest: /etc/apache2/apache2.conf
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]
 
 - name: Configure Apache ports
   template:
     src: ports.conf.j2
     dest: /etc/apache2/ports.conf
   notify: Restart apache
-  tags: [ apache ]
+  tags: [ apache-php, apache ]

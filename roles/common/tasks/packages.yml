@@ -59,3 +59,5 @@
   with_items:
     #- fpp # https://github.com/facebook/PathPicker
     - glances # https://github.com/nicolargo/glances
+    - howdoi
+  tags: [ common, packages ]

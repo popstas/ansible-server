@@ -1,6 +1,8 @@
 ---
 - name: Install python dev
   apt: name=python-dev
+  tags: ansible
 
 - name: Install ansible
   pip: name=ansible
+  tags: ansible
