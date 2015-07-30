@@ -10,6 +10,14 @@
 - vars/private.yml - пароли в явном виде, этот файл нельзя коммитить, использовать только для тестов!
 - vars/crypted.yml - пароли в зашифрованном виде, можно коммитить
 - .vault_pass.txt - пароль от зашифрованного файла, нельзя коммитить
+
+# Lint rules
+Directory `rules` contains some custom ansible-lint rules. 
+Command for apply rules:
+```
+ansible-lint -r rules server.yml
+```
+
 ## Зашифровать файл:
 ```cp vars/private.yml vars/crypted.yml && ansible-vault encrypt --vault-password-file .vault_pass.txt vars/crypted.yml```
 
