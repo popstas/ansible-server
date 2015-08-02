@@ -1,6 +1,9 @@
 ---
 # TODO: этот конфиг надо применять: к root, к юзеру, который доступен после создания машины, к юзеру сайта. Надо как-то обобщить это
 
+- name: Ensure zsh present
+  apt: name=zsh state=present
+
 - name: Clone oh-my-zsh repo
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh.git
