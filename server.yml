@@ -7,7 +7,7 @@
   vars_files:
     - vars/main.yml
     #- vars/private.yml
-    - vars/crypted.yml
+    #- vars/crypted.yml
 
   roles:
     # required by webserver
