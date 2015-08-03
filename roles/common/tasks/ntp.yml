@@ -1,4 +1,5 @@
 ---
+# TODO: apparmor prevents service ntp start (checked in docker phusion/baseimage:0.9.16), see https://groups.google.com/d/msg/passenger-docker/B7Cq3gs1paw/r0wnWlFrCPoJ
 # https://www.digitalocean.com/community/tutorials/how-to-set-up-time-synchronization-on-ubuntu-12-04
 # https://github.com/resmo/ansible-role-ntp
 # http://help.ubuntu.ru/wiki/%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BF%D0%BE_ubuntu_server/%D1%81%D0%B5%D1%82%D1%8C/ntp
