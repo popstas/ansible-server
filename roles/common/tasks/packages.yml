@@ -50,6 +50,9 @@
     #- nodejs-dev
     - php5-cli
     - python-dev
+
+    - libxml2-dev # for howdoi
+    - libxslt-dev # for howdoi
     #- tig
     #- tmux
   tags: [ common, packages ]
@@ -63,5 +66,5 @@
   with_items:
     #- fpp # https://github.com/facebook/PathPicker
     - glances # https://github.com/nicolargo/glances
-    - howdoi
+    - howdoi # requires libxml2-dev libxslt-dev packages
   tags: [ common, packages ]
