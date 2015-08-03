@@ -53,7 +53,7 @@
 
     - libxml2-dev # for howdoi
     - libxslt-dev # for howdoi
-    - libz-dev # for howdoi
+    - libz-dev # for howdoi # TODO: idempotence breaker
     #- tig
     #- tmux
   tags: [ common, packages ]
@@ -68,4 +68,5 @@
     #- fpp # https://github.com/facebook/PathPicker
     - glances # https://github.com/nicolargo/glances
     - howdoi # requires libxml2-dev libxslt-dev packages
+    - percol # https://github.com/mooz/percol
   tags: [ common, packages ]
