@@ -1,5 +1,5 @@
 ---
-
-mysql_root_password: {{ lookup('password', 'credentials/root/' + tier + '/' + role + '/mysqlpassword length=15') }}
+# TODO: generate default password
+mysql_root_password: "mysql_default_r0ot+password!"
 mysql_ptkill_db: percona
 innodb_buffer_pool_size: 2500M
