@@ -1,4 +1,7 @@
 ---
+- name: Ensure aptitude installed
+  apt: name=aptitude state=present
+  tags: [ common, packages ]
 
 - name: Update system packages
   apt:
