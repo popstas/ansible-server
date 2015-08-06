@@ -1,0 +1,28 @@
+[core]
+autocrlf = input
+editor = vim
+
+[user]
+email = {{ git_name }}
+name = {{ git_email }}
+
+[color]
+branch = auto
+diff = auto
+interactive = auto
+status = auto
+
+[alias]
+br = branch
+ci = commit
+cl = clone
+co = checkout
+cp = cherry-pick
+dc = diff --cached
+diff = diff --color-words=.
+lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)
+st = status
+addscr = !sh -c 'if [[ ${0: -3} == ".sh" ]]; then git update-index --chmod=+x $0; git add $0'
+
+[status]
+showUntrackedFiles = all

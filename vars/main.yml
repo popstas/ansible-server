@@ -4,10 +4,13 @@
 username: "{{ ansible_user_id }}" # for tasks
 nginx_user: www-data
 
-author_name: popstas
+author_name: Stanislav Popov
 mailfrom: root@tagilcity.ru
 mailto: admin@tagilcity.ru
 private_log_dir: /root/log
+
+git_name: "{{ author_name }}"
+git_email: popstas@gmail.com
 
 locales_present:
   - en_US.UTF-8

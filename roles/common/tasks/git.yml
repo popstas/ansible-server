@@ -1,0 +1,10 @@
+---
+# TODO: smarter tasks
+- name: Git config user
+  template: src=gitconfig.j2 dest=/home/{{ username }}/.gitconfig
+  when: username != "root"
+  tags: [ common, git ]
+
+- name: Git config root
+  template: src=gitconfig.j2 dest=/root/.gitconfig
+  tags: [ common, git ]
