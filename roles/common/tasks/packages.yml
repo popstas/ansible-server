@@ -52,8 +52,9 @@
     - python-dev
 
     - libxml2-dev # for howdoi
-    - libxslt-dev # for howdoi
-    - libz-dev # for howdoi # TODO: idempotence breaker
+    - libxslt1-dev # for howdoi
+    - zlib1g-dev # for howdoi
+
     #- tig
     #- tmux
   tags: [ common, packages ]
