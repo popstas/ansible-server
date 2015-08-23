@@ -3,7 +3,7 @@
   git:
     repo=https://github.com/popstas/server-scripts.git
     dest=/usr/local/src/server-scripts
-    version=4d01d2c91d11112f181120d1fb3a4fb9bee100b9
+    version=v0.1
   tags: server-scripts
 
 - name: Install server-scripts
