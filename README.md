@@ -46,6 +46,7 @@ https://github.com/debops/test-suite - RoleSpec тесты от DebOps
 - https://github.com/jdauphant/ansible-roles - у него хорошие стандарты написания ролей
 - https://github.com/jdauphant/awesome-ansible - сборник ссылок от него же
 - https://github.com/ansible/ansible-examples - официальные примеры
+- https://github.com/M4nu/ansible
 
 ## Full recreate VM
 ```
