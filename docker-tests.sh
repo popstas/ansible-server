@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # create ssh key if not exists
 [ -f ~/.ssh/id_rsa ] || ssh-keygen -t rsa -q -f ~/.ssh/id_rsa -P ""
 
