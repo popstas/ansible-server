@@ -12,10 +12,10 @@
   roles:
     # required by webserver
     - common
-    #- dns
+    - dns
     - apache-php
-    - phpmyadmin
     - mysql
+    - phpmyadmin
     - nginx
     - backups
     - server-scripts
@@ -27,9 +27,7 @@
 
     # monitoring
     - diamond
-    #- bind9
-    #- docker-grafana
-    #- docker-graphite
+    - bind9
     - monit
 
     # other
