@@ -1,5 +1,13 @@
 # ansible-server
 
+# Install
+```
+cd /usr/local/src
+git clone /usr/local/src/ansible-server
+cd /usr/local/src/ansible-server
+git submodule init
+git submodule update
+```
 
 # Playbooks
 - server.yml - setup production server
