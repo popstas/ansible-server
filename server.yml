@@ -1,35 +1,35 @@
 ---
   # user ubuntu with sudo need for first run on aws
 - hosts: all
-  remote_user: root #ubuntu
+  #remote_user: root #ubuntu
   #sudo: yes
 
   vars_files:
     - vars/main.yml
+    - vars/apache2.yml
+    - vars/nginx.yml
     #- vars/private.yml
     #- vars/crypted.yml
 
   roles:
     # required by webserver
     - common
-    #- dns
+    - dns # don't work on docker, see https://github.com/docker/docker/issues/9295
     - apache-php
-    - phpmyadmin
     - mysql
+    - phpmyadmin
     - nginx
-    - backups
+    #- backups # One or more undefined variables: 'backups_lsyncd_source' is undefined
     - server-scripts
     - exim4
-    - docker
+    #- docker
     - locales
     - memcached
     - ufw
 
     # monitoring
     - diamond
-    #- bind9
-    #- docker-grafana
-    #- docker-graphite
+    - bind9
     - monit
 
     # other

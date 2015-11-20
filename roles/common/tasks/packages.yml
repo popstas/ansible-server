@@ -27,6 +27,7 @@
     - ncdu
     - nmap
     - openssh-server
+    - php5-cli
     - pv
     - python-setuptools
     - screen
@@ -69,5 +70,6 @@
     #- fpp # https://github.com/facebook/PathPicker
     - glances # https://github.com/nicolargo/glances
     - howdoi # requires libxml2-dev libxslt-dev packages
+    - httpie # https://github.com/jkbrzt/httpie
     - percol # https://github.com/mooz/percol
   tags: [ common, packages ]

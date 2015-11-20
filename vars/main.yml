@@ -2,9 +2,8 @@
 
 #user: ubuntu # for ansible?
 username: "{{ ansible_user_id }}" # for tasks
-nginx_user: www-data
 
-author_name: Stanislav Popov
+author_name: popstas
 mailfrom: root@tagilcity.ru
 mailto: admin@tagilcity.ru
 private_log_dir: /root/log
@@ -61,59 +60,20 @@ backups_mysql_cronjobs:
 
 aws_s3_region: "us-west-2"
 
-backups_lsyncd_source: /home/ec2-user/test
+backups_lsyncd_sources:
+  - /etc
+  - /usr/local/bin
+
 backups_lsyncd_target: "s3://tagilcity-backups/backup-folder"
 
 
 
-other_cronjobs:
+other_cronjobs: # TODO: cron role with depedencies
   - { name: "detect-viruses", minute: 40, hour: "3",             job: "ionice -c3 detect-viruses /home" }
 
 
 ssh_public_keys_dir: ~/.ssh/public-keys
 ssh_public_keys_removed_dir: ~/.ssh/public-keys-removed
-
-apache_host: 127.0.0.1
-apache_port: 81
-
-apache_modules:
-  - actions.load
-  - alias.conf
-  - alias.load
-  #- auth_basic.load
-  #- authn_file.load
-  #- authz_default.load
-  #- authz_groupfile.load
-  #- authz_host.load
-  #- authz_user.load
-  #- cgi.load
-  - deflate.conf
-  - deflate.load
-  #- dir.conf
-  #- dir.load
-  - env.load
-  - include.load
-  - mime.conf
-  - mime.load
-  - mpm_itk.load # TODO: check it works
-  - negotiation.conf
-  - negotiation.load
-  - php5.conf
-  - php5.load
-  - reqtimeout.conf
-  - reqtimeout.load
-  - rewrite.load
-  - remoteip.conf
-  - remoteip.load
-  #- rpaf.conf # replaced with remoteip in apache 2.4
-  #- rpaf.load
-  - setenvif.conf
-  - setenvif.load
-  #- ssl.conf
-  - status.conf
-  - status.load
-  #- suexec.load
-  - vhost_alias.load
 
 
 # firewall

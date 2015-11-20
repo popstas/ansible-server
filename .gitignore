@@ -1,5 +1,6 @@
 .idea
 .vagrant
+build/*
 
 vars/private.yml
 .vault_pass.txt
