@@ -10,3 +10,6 @@
 [submodule "roles/nginx"]
 	path = roles/nginx
 	url = https://github.com/popstas/ansible-role-nginx.git
+[submodule "roles/locales"]
+	path = roles/locales
+	url = https://github.com/popstas/ansible-role-locales.git
