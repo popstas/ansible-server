@@ -5,10 +5,19 @@
 - name: restart percona
   action: service name=mysql state=restarted
 
-- name: restart pt-kill
-  command: /etc/init.d/pt-kill restart
+- name: stop percona
+  action: service name=mysql state=stopped
+
+- name: clear iblogfiles
+  file: path={{ item }} state=absent
+  with_fileglob:
+    - "{{ mysql_datadir }}/ib_logfile*"
+
+- name: start percona
+  action: service name=mysql state=started
+
+#- name: restart pt-kill
+#  command: /etc/init.d/pt-kill restart
 
 - name: restart pt-kill
-  service:
-    name: pt-kill
-    state: restarted
+  service: name=pt-kill state=restarted

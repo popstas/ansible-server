@@ -48,3 +48,11 @@
     - python-mysqldb
   register: mysql_installation
   tags: [ mysql ]
+
+- name: libmysqlclient-dev
+  apt: name=libmysqlclient-dev state=latest
+  tags: [ mysql ]
+
+- name: mysql-python
+  pip: name=MySQL-python state=latest
+  tags: [ mysql ]
