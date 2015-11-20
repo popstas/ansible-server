@@ -1,0 +1,30 @@
+---
+
+- name: Install packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - build-essential
+    - libapache2-mod-fastcgi
+    - build-dep
+    - php5
+    - libfcgi-dev
+    - libfcg
+    - libxml2-dev
+    - libbz2-dev
+    - libcurl3-dev
+    - libjpeg62-dev
+    - libpng12-dev
+    - libc-client-dev
+    - libmcrypt-dev
+    - libmhash-dev
+    - libmysqlclient-dev
+    - libpq-dev
+    - libxpm-dev
+    - libfreetype6-dev
+
+- name: Download php 5.2 sources
+  wget:
+    src=
+    target=
+
+- name: Compile php
