@@ -18,4 +18,4 @@ ssh root@localhost -p $port -o StrictHostKeyChecking=no true
 
 # add host to inventory
 mkdir -p build
-echo localhost:$port > build/hosts_docker
+echo localhost:$port > build/hosts

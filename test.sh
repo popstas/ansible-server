@@ -1,11 +1,24 @@
 #!/bin/bash
 PLAYBOOK="server.yml"
-ARGS="--vault-password-file .vault_pass.txt -i build/hosts_docker $@"
+ARGS="--vault-password-file .vault_pass.txt -i build/hosts $@"
+
+set -e
+
+ansible-playbook $PLAYBOOK $ARGS
+
+exists (){
+	which $1 &> /dev/null
+}
+if ! exists ansible-lint; then
+	echo >&2 "ansible-lint not found, install it:"
+	echo >&2 "sudo pip install ansible-lint"
+	exit 1
+fi
 
 temp=$(mktemp -t ansible-test-XXXX)
 trap 'rm -f "$temp"' EXIT
 
-ansible-lint $PLAYBOOK && \
+#ansible-lint $PLAYBOOK && \
 ansible-playbook $PLAYBOOK $ARGS --syntax-check && \
 ansible-playbook $PLAYBOOK $ARGS -vv && \
 ansible-playbook $PLAYBOOK $ARGS | tee $temp && \

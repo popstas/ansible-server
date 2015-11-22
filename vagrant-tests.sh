@@ -7,18 +7,25 @@ set -e
 
 name="${1:-"ansible_server"}"
 
-export BOX_NAME="$name"
+export VM_NAME="$name"
 
-# run docker
-vagrant up
+#export ANSIBLE_HOST_KEY_CHECKING=False # http://docs.ansible.com/ansible/intro_getting_started.html#host-key-checking
 
-# add docker host to known_hosts
-# http://askubuntu.com/questions/123072/ssh-automatically-accept-keys
-ssh root@localhost -p $port -o StrictHostKeyChecking=no true
+vagrant up --no-provision
 
 ssh_config=$(vagrant ssh-config)
+ssh_config_get (){
+	echo "$ssh_config" | grep "$1" | awk '{print $2}'
+}
 
-# add host to inventory
+port=$(ssh_config_get Port)
+private_key_file=$(ssh_config_get IdentityFile)
+
+echo "add host to inventory"
 mkdir -p build
 
-echo localhost:$port > build/hosts_vagrant
+vagrant ssh-config > build/ssh-config
+echo localhost:$port > build/hosts
+
+echo "add private_key_file to ansible.cfg"
+sed -i "s|private_key_file.*|private_key_file=$private_key_file|g" ansible.cfg

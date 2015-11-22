@@ -2,7 +2,7 @@
   # user ubuntu with sudo need for first run on aws
 - hosts: all
   #remote_user: root #ubuntu
-  #sudo: yes
+  sudo: yes
 
   vars_files:
     - vars/main.yml

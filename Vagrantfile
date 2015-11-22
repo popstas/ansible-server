@@ -1,5 +1,6 @@
 $VM_BOX = 'ubuntu/trusty64'
 $VM_NAME = ENV.has_key?('VM_NAME') ? ENV['VM_NAME'] : "ansible-server"
+$VM_IP = ENV.has_key?('VM_IP') ? ENV['VM_IP'] : false
 
 # share apt cache - https://gist.github.com/juanje/3797297
 require 'fileutils'
@@ -12,7 +13,15 @@ end
 
 Vagrant.configure('2') do |config|
   config.vm.box = $VM_BOX
-  # config.vm.network "public_network", ip: "192.168.1.100", bridge: "eth0"
+  config.vm.box_check_update = false
+  config.ssh.insert_key = false
+  #config.ssh.private_key_path = "/home/popstas/.ssh/id_dsa"
+
+  if $VM_IP
+    config.vm.define "public" do |public|
+      config.vm.network "public_network", ip: $VM_IP, bridge: "eth0"
+    end
+  end
 
   # mount /var/cache/apt/archives to host /root/.vagrant.d/cache/apt/ubuntu/trusty64
   cache_dir = local_cache(config.vm.box)
@@ -25,12 +34,12 @@ Vagrant.configure('2') do |config|
   end
 
   # Provisioning configuration for Ansible (for Mac/Linux hosts).
-  config.vm.provision "ansible" do |ansible|
-    ansible.extra_vars = { ansible_ssh_user: 'vagrant', vagrant: true }
-    ansible.sudo = true
-    #ansible.ask_sudo_pass = true
-    ansible.playbook = 'server.yml'
-    ansible.verbose = 'vv'
-    #ansible.tags = 'ssh'
-  end
+  #config.vm.provision "ansible" do |ansible|
+  #  ansible.extra_vars = { ansible_ssh_user: 'vagrant', vagrant: true }
+  #  ansible.sudo = true
+  #  #ansible.ask_sudo_pass = true
+  #  ansible.playbook = 'server.yml'
+  #  ansible.verbose = 'vv'
+  #  #ansible.tags = 'ssh'
+  #end
 end
