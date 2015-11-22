@@ -35,7 +35,7 @@
     - traceroute
     - tree
     - unzip
-    - vim
+    - vim-gtk # invludes more compiled modules, + 28 mb
     - vnstat
     - whois
     - zsh
@@ -72,4 +72,5 @@
     - howdoi # requires libxml2-dev libxslt-dev packages
     - httpie # https://github.com/jkbrzt/httpie
     - percol # https://github.com/mooz/percol
+    - powerline-status
   tags: [ common, packages ]

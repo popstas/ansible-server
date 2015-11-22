@@ -1,2 +1,47 @@
 ---
-# todo
+# TODO: этот конфиг надо применять: к root, к юзеру, который доступен после создания машины, к юзеру сайта. Надо как-то обобщить это
+
+- name: Ensure vim present
+  apt: name=vim state=present
+
+- name: Clone vim-config
+  git:
+    repo=https://github.com/popstas/vim-config.git
+    dest={{ vim_config_path }}
+    version={{ vim_config_version }}
+  tags: [ common, vim ]
+
+- name: symlink vimrc for all
+  file: path=/etc/skel/.vimrc src={{ vim_config_path }}/.vimrc state=link
+  tags: [ common, vim ]
+
+- name: Check vimrc
+  stat: path=/home/{{ username }}/.vimrc
+  register: st
+  when: username != "root"
+  tags: [ common, vim ]
+
+- name: remove standard vimrc if it is not link
+  file: path=/home/{{ username }}/.vimrc state=absent
+  when: username != "root" and st.stat.exists and not st.stat.islnk
+  tags: [ common, vim ]
+
+- name: symlink vimrc
+  file: path=/home/{{ username }}/.vimrc src={{ vim_config_path }}/.vimrc state=link owner={{ username }}
+  when: username != "root"
+  tags: [ common, vim ]
+
+
+- name: Check vimrc for root
+  stat: path=/root/.vimrc
+  register: st
+  tags: [ common, vim ]
+
+- name: remove standard vimrc for root if it is not link
+  file: path=/root/.vimrc state=absent
+  when: st.stat.exists and not st.stat.islnk
+  tags: [ common, vim ]
+
+- name: symlink vimrc for root
+  file: path=/root/.vimrc src={{ vim_config_path }}/.vimrc state=link owner=root
+  tags: [ common, vim ]
