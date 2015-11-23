@@ -9,7 +9,7 @@ git submodule init
 git submodule update
 ```
 
-# Update submodule
+## Update submodule
 ```
 pushd roles/rolename
 git pull origin master
@@ -17,6 +17,12 @@ popd
 git commit -m "update roles/rolename fork"
 ```
 
+## Remove submodule
+```
+git rm path/to/submodule
+git commit
+rm -rf .git/modules/path/to/submodule
+```
 
 
 # Playbooks
@@ -30,6 +36,13 @@ git commit -m "update roles/rolename fork"
 - vars/private.yml - пароли в явном виде, этот файл нельзя коммитить, использовать только для тестов!
 - vars/crypted.yml - пароли в зашифрованном виде, можно коммитить
 - .vault_pass.txt - пароль от зашифрованного файла, нельзя коммитить
+
+
+
+# Files
+- place ssh public keys to roles/common/files/ssh-public-keys or change `{{ ssh_public_keys_dir }}` in vars/main.yml
+- place ssh public keys to roles/common/files/ssh-public-keys-removed or change `{{ ssh_public_keys_removed_dir }}` in vars/main.yml
+
 
 
 # Lint rules
