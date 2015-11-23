@@ -1,4 +1,5 @@
 ---
+# TODO: move bats from common role
 - name: Sync bats
   git:
     repo=https://github.com/sstephenson/bats.git
