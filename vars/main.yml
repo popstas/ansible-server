@@ -72,8 +72,8 @@ other_cronjobs: # TODO: cron role with depedencies
   - { name: "detect-viruses", minute: 40, hour: "3",             job: "ionice -c3 detect-viruses /home" }
 
 
-ssh_public_keys_dir: ~/.ssh/public-keys
-ssh_public_keys_removed_dir: ~/.ssh/public-keys-removed
+ssh_public_keys_dir: ssh-public-keys
+ssh_public_keys_removed_dir: ssh-public-keys-removed
 
 
 # firewall

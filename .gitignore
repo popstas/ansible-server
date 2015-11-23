@@ -4,3 +4,5 @@ build/*
 
 vars/private.yml
 .vault_pass.txt
+ssh-public-keys
+ssh-public-keys-removed
