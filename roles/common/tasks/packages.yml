@@ -3,12 +3,17 @@
   apt: name=aptitude state=present
   tags: [ common, packages ]
 
-- name: Update system packages
+- name: Update apt cache
   apt:
-        upgrade=safe
         update_cache=yes
         cache_valid_time=3600
-  tags: [ common, packages ]
+  register: apt_cache
+  tags: [ common, packages, upgrade ]
+
+- name: Update system packages
+  apt:  upgrade=yes
+  when: apt_cache.changed
+  tags: [ common, packages, upgrade ]
 
 - name: Install common packages
   apt: name={{item}} state=latest
