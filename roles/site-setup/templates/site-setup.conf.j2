@@ -1,0 +1,22 @@
+mailto="{{mailto}}"
+tmpldir="/usr/share/site-setup/templates"
+configdir="/usr/share/site-setup/configs"
+
+sourcedir="/usr/local/drupal"
+
+dns_ns1="ns1.example.com"
+dns_ns2="ns2.example.com"
+dns_a_ip="1.2.3.4"
+dns_admin="admin.example.com"
+
+test_directory="/home/test"
+
+homedir="/home/$USER/data"
+wwwdir="$homedir/www"
+sitedir="$wwwdir/$DOMAIN"
+sitedir_old="${sitedir}_old"
+nginxfile="/etc/nginx/sites-available/$DOMAIN"
+nginxfileen="/etc/nginx/sites-enabled/$DOMAIN"
+nginx_server_scope_include_test="include /etc/nginx/whitelist-ips;"
+apachefile="/etc/apache2/sites-available/$DOMAIN.conf"
+apachefileen="/etc/apache2/sites-enabled/$DOMAIN.conf"

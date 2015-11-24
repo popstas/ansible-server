@@ -1,0 +1,17 @@
+---
+- name: Sync site-setup
+  git:
+    repo=https://github.com/popstas/site-setup.git
+    dest=/usr/local/src/site-setup
+    version={{ site_setup_version }}
+  tags: site-setup
+
+- name: Install site-setup
+  command:
+    /usr/local/src/site-setup/install.sh -y
+    creates=/usr/share/site-setup
+  tags: site-setup
+
+- name: site-setup config
+  template: src=site-setup.conf.j2 dest=/etc/site-setup.conf owner=root mode=0644
+  tags: site-setup

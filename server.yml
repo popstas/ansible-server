@@ -21,6 +21,7 @@
     - nginx
     #- backups # One or more undefined variables: 'backups_lsyncd_source' is undefined
     - server-scripts
+    - site-setup
     - exim4
     #- docker
     - locales
