@@ -1,0 +1,66 @@
+# tasks file for ufw
+---
+- name: install
+  apt:
+    name: ufw
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+  tags: [configuration, ufw, ufw-install]
+
+- name: create (local facts) directory
+  file:
+    path: /etc/ansible/facts.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: [configuration, ufw, ufw-facts]
+
+- name: set local facts
+  template:
+    src: etc/ansible/facts.d/ufw.fact.j2
+    dest: /etc/ansible/facts.d/ufw.fact
+    owner: root
+    group: root
+    mode: 0644
+  register: configuration
+  tags: [configuration, ufw, ufw-facts]
+
+- name: reset
+  ufw:
+    state: reset
+  when: configuration | changed
+  tags: [configuration, ufw, ufw-reset]
+
+- name: default policy
+  ufw:
+    policy: "{{ ufw_default_policy }}"
+  notify: reload ufw
+  tags: [configuration, ufw, ufw-default-policy]
+
+- name: rules
+  ufw:
+    rule: "{{ item.rule }}"
+    interface: "{{ item.interface | default('') }}"
+    direction: "{{ item.direction | default('in') }}"
+    from_ip: "{{ item.from_ip | default('any') }}"
+    to_ip: "{{ item.to_ip | default('any') }}"
+    from_port: "{{ item.from_port | default('') }}"
+    to_port: "{{ item.to_port | default('') }}"
+    protocol: "{{ item.protocol | default('any') }}"
+    log: "{{ item.log | default(False) }}"
+  with_items: ufw_rules
+  notify: reload ufw
+  tags: [configuration, ufw, ufw-apply]
+
+- name: logging
+  ufw:
+    logging: "{{ ufw_logging }}"
+  notify: reload ufw
+  tags: [configuration, ufw, ufw-logging]
+
+- name: enable
+  ufw:
+    state: enabled
+  tags: [configuration, ufw, ufw-enabled]
