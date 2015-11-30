@@ -4,6 +4,7 @@
 # https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server
 
 # TODO: check from remote IP
+# TODO: replace with https://github.com/jlund/ansible-ufw
 
 - name: install ufw
   apt: name=ufw state=latest
@@ -22,6 +23,11 @@
 
 - name: limit SSH
   ufw: rule=limit name=OpenSSH
+  tags: ufw
+
+- name: limit SSH
+  ufw: rule=allow name=OpenSSH src={{ item }}
+  with_items: ufw_allow_ips
   tags: ufw
 
 - name: Allow all access to ports
