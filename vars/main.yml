@@ -76,23 +76,12 @@ ssh_public_keys_dir: ssh-public-keys
 ssh_public_keys_removed_dir: ssh-public-keys-removed
 
 
-# firewall
-ufw_allow_ports:
-  - 53
-  - 80
-  - 443
 
-ufw_deny_ports:
-  - 2000
-  - 2003
 
-ufw_allow_ips:
-  - 10.0.0.0/8
-  - 172.16.0.0/12
-  - 192.168.0.0/16
 
 
 # diamond, graphite, grafana
+# TODO: not used
 grafana_domain: grafana.{{ ansible_nodename }}
 graphite_domain: graphite.{{ ansible_nodename }}
 
