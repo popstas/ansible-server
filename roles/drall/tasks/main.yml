@@ -1,0 +1,13 @@
+---
+- name: Sync drall
+  git:
+    repo=https://github.com/popstas/drall.git
+    dest=/usr/local/src/drall
+    version={{ drall_version }}
+  tags: drall
+
+- name: Install drall
+  command:
+    /usr/local/src/drall/install.sh -y
+    creates=/usr/share/drall
+  tags: drall
