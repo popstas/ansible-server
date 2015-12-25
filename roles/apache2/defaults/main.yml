@@ -1,0 +1,12 @@
+---
+apache_host: localhost
+apache_port: 81
+apache_modules:
+  - mpm_itk.load
+  - php5.conf
+  - php5.load
+  - remoteip.conf
+  - remoteip.load
+  - rewrite.load
+  - status.conf
+  - status.load

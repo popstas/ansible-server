@@ -23,12 +23,12 @@
     #- php5-suhosin
     - php5-xdebug
   notify: Restart apache
-  tags: [ apache-php, php ]
+  tags: [ php ]
 
 - name: set php.ini
   template: src=php.ini.j2 dest=/etc/php5/apache2/php.ini
-  tags: [ apache-php, php ]
+  tags: [ php ]
 
 - name: set xdebug.ini
   template: src=xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini
-  tags: [ apache-php, php ]
+  tags: [ php ]
