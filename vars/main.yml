@@ -3,13 +3,7 @@
 #user: ubuntu # for ansible?
 username: "{{ ansible_user_id }}" # for tasks
 
-author_name: popstas
-mailfrom: root@tagilcity.ru
-mailto: admin@tagilcity.ru
 private_log_dir: /root/log
-
-git_name: "{{ author_name }}"
-git_email: popstas@gmail.com
 
 locales_present:
   - en_US.UTF-8
@@ -31,17 +25,13 @@ exim4_sender_hostname: "{{ ansible_nodename }}"
 
 # mysql
 mysql_datadir: /var/lib/mysql
-innodb_buffer_pool_size: 250M
+mysql_innodb_buffer_pool_size: 250M
 mysql_ptkill_db: percona
 
 
 # monit
 monit_check_filesystems:
   - { name: rootfs, mountpoint: "/", usage_limit: 90% }
-monit_check_hostname: viasite.ru
-monit_check_port: 80
-monit_check_request: /monit/token
-
 
 zsh_config_path: /etc/zsh-config
 
@@ -50,7 +40,6 @@ backups_user: root
 backups_dir: /var/backups
 backups_mysql_dir: "{{ backups_dir }}/sql"
 backups_mysql_remote_user: "{{ backups_user }}"
-backups_mysql_remote_host: tagilcity.ru
 backups_mysql_remote_dir: "{{ backups_mysql_dir }}/{{ ansible_fqdn }}"
 backups_mysql_send_hour: 5 # TODO: not used
 backups_mysql_cronjobs:
@@ -64,7 +53,6 @@ backups_lsyncd_sources:
   - /etc
   - /usr/local/bin
 
-backups_lsyncd_target: "s3://tagilcity-backups/backup-folder"
 
 
 
@@ -81,11 +69,6 @@ ssh_public_keys_removed_dir: ssh-public-keys-removed
 
 
 # diamond, graphite, grafana
-# TODO: not used
-grafana_domain: grafana.{{ ansible_nodename }}
-graphite_domain: graphite.{{ ansible_nodename }}
-
-
 diamond_collectors:
   CPUCollector:
     enabled: True
