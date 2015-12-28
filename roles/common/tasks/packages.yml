@@ -24,6 +24,7 @@
     - git
     - grc
     - htop
+    - imagemagick
     - iotop
     - less
     - lnav
@@ -76,6 +77,9 @@
     - glances # https://github.com/nicolargo/glances
     - howdoi # requires libxml2-dev libxslt-dev packages
     - httpie # https://github.com/jkbrzt/httpie
+    - mycli # https://github.com/dbcli/mycli
     - percol # https://github.com/mooz/percol
     - powerline-status
+    - ps_mem # https://github.com/pixelb/ps_mem
+    #- watchdog # watchmedo, https://github.com/gorakhargosh/watchdog
   tags: [ common, packages ]

@@ -11,8 +11,23 @@
     version={{ vim_config_version }}
   tags: [ common, vim ]
 
-- name: symlink vimrc for all
+- name: Symlink vimrc for all
   file: path=/etc/skel/.vimrc src={{ vim_config_path }}/.vimrc state=link
+  tags: [ common, vim ]
+
+- name: Create .vim data directory
+  file: path={{ vim_config_path }}/.vim state=directory
+  tags: [ common, vim ]
+
+- name: Symlink .vim for all
+  file: path=/etc/skel/.vim src={{ vim_config_path }}/.vim state=link
+  tags: [ common, vim ]
+
+- name: Clone vundle
+  git:
+    repo=https://github.com/VundleVim/Vundle.vim.git
+    dest={{ vim_config_path }}/.vim/bundle/Vundle.vim
+    version={{ vim_vundle_version }}
   tags: [ common, vim ]
 
 - name: Check vimrc
@@ -40,6 +55,10 @@
 - name: remove standard vimrc for root if it is not link
   file: path=/root/.vimrc state=absent
   when: st.stat.exists and not st.stat.islnk
+  tags: [ common, vim ]
+
+- name: Symlink .vim for root
+  file: path=/root/.vim src={{ vim_config_path }}/.vim state=link
   tags: [ common, vim ]
 
 - name: symlink vimrc for root

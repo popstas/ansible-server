@@ -2,9 +2,10 @@
 ntp_config_server: [ '0.pool.ntp.org', '1.pool.ntp.org', '2.pool.ntp.org', '3.pool.ntp.org' ]
 
 vim_config_version: 0967a07
+vim_vundle_version: 5f70ae6
 vim_config_path: /etc/vim-config
 
-zsh_config_version: b59621d
+zsh_config_version: 2d122c4
 zsh_config_path: /etc/zsh-config
 
 zsh_oh_my_zsh_path: /usr/share/oh-my-zsh

@@ -8,7 +8,7 @@
     user=root
     key="{{ lookup('file', item) }}"
   with_fileglob:
-    - "{{ ssh_public_keys_dir }}/*"
+    - "../../../vars/{{ ssh_public_keys_dir }}/*"
   tags: [ common, ssh ]
 
 - name: Remove old ssh public keys from root
@@ -17,7 +17,7 @@
     key="{{ lookup('file', item) }}"
     state=absent
   with_fileglob:
-    - "{{ ssh_public_keys_removed_dir }}/*"
+    - "../../../vars/{{ ssh_public_keys_removed_dir }}/*"
   tags: [ common, ssh ]
 
 - name: Add ssh public keys to user
@@ -25,7 +25,7 @@
     user={{ username }}
     key="{{ lookup('file', item) }}"
   with_fileglob:
-    - "{{ ssh_public_keys_dir }}/*"
+    - "../../../vars/{{ ssh_public_keys_dir }}/*"
   when: ansible_user_id != "root"
   tags: [ common, ssh ]
 
@@ -35,6 +35,6 @@
     key="{{ lookup('file', item) }}"
     state=absent
   with_fileglob:
-    - "{{ ssh_public_keys_removed_dir }}/*"
+    - "../../../vars/{{ ssh_public_keys_removed_dir }}/*"
   when: ansible_user_id != "root"
   tags: [ common, ssh ]
