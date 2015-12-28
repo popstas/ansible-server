@@ -13,3 +13,9 @@
 [submodule "roles/locales"]
 	path = roles/locales
 	url = https://github.com/popstas/ansible-role-locales.git
+[submodule "roles/site"]
+	path = roles/site
+	url = https://github.com/popstas/ansible-role-site.git
+[submodule "roles/ufw"]
+	path = roles/ufw
+	url = https://github.com/popstas/ansible-ufw.git
