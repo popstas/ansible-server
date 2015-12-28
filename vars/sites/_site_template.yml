@@ -1,0 +1,13 @@
+---
+domain:
+domain_test:
+site_user:
+
+mysql_host: localhost
+mysql_db: "{{ site_user }}"
+mysql_user: "{{ site_user }}"
+mysql_password:
+
+site_cronjobs: []
+
+site_nginx_custom_config: ""
