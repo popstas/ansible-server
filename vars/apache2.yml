@@ -21,7 +21,7 @@ apache_modules:
   - include.load
   - mime.conf
   - mime.load
-  - mpm_itk.load # TODO: check it works
+  - mpm_itk.load
   - negotiation.conf
   - negotiation.load
   - php5.conf

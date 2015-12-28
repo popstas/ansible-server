@@ -3,11 +3,17 @@
 # Install
 ```
 cd /usr/local/src
-git clone /usr/local/src/ansible-server
+git clone https://github.com/popstas/ansible-server
 cd /usr/local/src/ansible-server
-git submodule init
-git submodule update
+git submodule update --init --recursive
 ```
+
+or
+
+```
+git clone --recursive https://github.com/popstas/ansible-server /usr/local/src/ansible-server
+```
+
 
 ## Update submodule
 ```
@@ -40,8 +46,8 @@ rm -rf .git/modules/path/to/submodule
 
 
 # Files
-- place ssh public keys to roles/common/files/ssh-public-keys or change `{{ ssh_public_keys_dir }}` in vars/main.yml
-- place ssh public keys to roles/common/files/ssh-public-keys-removed or change `{{ ssh_public_keys_removed_dir }}` in vars/main.yml
+- place ssh public keys to vars/ssh-public-keys or change `{{ ssh_public_keys_dir }}` in vars/main.yml
+- place ssh public keys to vars/ssh-public-keys-removed or change `{{ ssh_public_keys_removed_dir }}` in vars/main.yml
 
 
 
@@ -54,7 +60,9 @@ ansible-lint -r rules server.yml
 
 
 ## Зашифровать файл:
-```cp vars/private.yml vars/crypted.yml && ansible-vault encrypt --vault-password-file .vault_pass.txt vars/crypted.yml```
+```
+cp vars/private.yml vars/crypted.yml && ansible-vault encrypt --vault-password-file .vault_pass.txt vars/crypted.yml
+```
 
 Подробнее о работе с зашифрованным файлом - http://docs.ansible.com/ansible/playbooks_vault.html
 
@@ -71,7 +79,7 @@ test.sh - предназначен для запуска тестов на чи�
 
 ## Как тестировать
 1. Пишем роль
-2. Запускаем инициализацию машины, `tests/docker-tests.sh` или `tests/vagrant-tests.sh` рекомендуется в vagrant
+2. Запускаем инициализацию машины, `tests/docker-init.sh` или `tests/vagrant-init.sh` рекомендуется в vagrant
 3. Запускаем тесты в машине
 ```
 tests/test.sh --tags имя_роли
@@ -80,21 +88,21 @@ tests/test.sh --tags имя_роли
 
 
 ## Vagrant
-`tests/vagrant-tests.sh` - инициализирует vagrant box и готовит конфиги для запуска в нем ansible
+`tests/vagrant-init.sh` - инициализирует vagrant box и готовит конфиги для запуска в нем ansible
 
 ```
-tests/vagrant-tests.sh
+tests/vagrant-init.sh
 ```
 
 ```
-VM_IP=192.168.1.100 VM_NAME=ansible-server2 tests/vagrant-tests.sh
+VM_IP=192.168.1.100 VM_NAME=ansible-server-public tests/vagrant-init.sh
 ```
 
 ## Docker
-`tests/docker-tests.sh` - создание/запуск докера с --name ansible_server (можно передать имя параметром),
+`tests/docker-init.sh` - создание/запуск докера с --name ansible_server (можно передать имя параметром),
 Прописывание данных докера в build/hosts_docker
 ```
-tests/docker-tests.sh
+tests/docker-init.sh
 ```
 
 ```
@@ -126,6 +134,7 @@ https://github.com/ansible/ansible/issues/12817 - ansible & vagrant ssh connecti
 - https://github.com/jdauphant/awesome-ansible - сборник ссылок от него же
 - https://github.com/ansible/ansible-examples - официальные примеры
 - https://github.com/M4nu/ansible
+- https://github.com/Oefenweb, https://oefenweb.github.io/
 
 
 
@@ -163,3 +172,9 @@ Install common packages
 - [ ] Уникальные для серверов переменные и общие для всех наших серверов переменные нужно разделить
 - [ ] Install [docker-compose](https://docs.docker.com/compose/install/)
 - [ ] https://github.com/angstwad/docker.ubuntu
+- [ ] exim dkim
+
+## nginx role issues
+- [ ] nginx snippets - https://github.com/jdauphant/ansible-role-nginx/pull/33
+- [ ] nginx access rules - https://github.com/jdauphant/ansible-role-nginx/pull/73
+- [ ] How to use this role as a dependency ? - https://github.com/jdauphant/ansible-role-nginx/issues/63

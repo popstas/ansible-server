@@ -1,0 +1,14 @@
+---
+nginx_snippet_viasite_default: |
+  {{ lookup('template', 'snippets/viasite-default-location.j2' )}}
+
+nginx_snippet_upstream_mod_php: |
+  {{ lookup('template', 'snippets/upstream-php.j2' )}}
+
+nginx_snippet_whitelist_ips: |
+  {{ lookup('template', 'snippets/whitelist-ips.j2' )}}
+
+nginx_snippet_proxy_params: |
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

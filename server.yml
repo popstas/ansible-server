@@ -8,20 +8,23 @@
     - vars/main.yml
     - vars/apache2.yml
     - vars/nginx.yml
-    #- vars/private.yml
+    - vars/nginx_snippets.yml
+    - vars/private.yml
     #- vars/crypted.yml
 
   roles:
     # required by webserver
     - common
     - dns # don't work on docker, see https://github.com/docker/docker/issues/9295
-    - apache-php
+    - apache2
+    - php
     - mysql
-    - phpmyadmin
     - nginx
+    - phpmyadmin
     #- backups # One or more undefined variables: 'backups_lsyncd_source' is undefined
     - server-scripts
     - site-setup
+    - drall
     - exim4
     #- docker
     - locales
