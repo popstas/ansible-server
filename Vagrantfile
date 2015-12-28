@@ -1,6 +1,6 @@
 $VM_BOX = 'ubuntu/trusty64'
 $VM_NAME = ENV.has_key?('VM_NAME') ? ENV['VM_NAME'] : "ansible-server"
-$VM_IP = ENV.has_key?('VM_IP') ? ENV['VM_IP'] : false
+$VM_IP = ENV.has_key?('VM_IP') ? ENV['VM_IP'] : "192.168.1.100"
 
 # share apt cache - https://gist.github.com/juanje/3797297
 require 'fileutils'
@@ -23,12 +23,17 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  config.vm.network "private_network", type: "dhcp"
+
   # mount /var/cache/apt/archives to host /root/.vagrant.d/cache/apt/ubuntu/trusty64
   cache_dir = local_cache(config.vm.box)
   config.vm.synced_folder cache_dir, "/var/cache/apt/archives/", create: true
 
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+
   config.vm.provider "virtualbox" do |config|
-    config.memory = 1024
+    config.cpus = 2
+    config.memory = 4096
     config.gui = false
     config.name = $VM_NAME
   end
