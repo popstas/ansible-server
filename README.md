@@ -1,4 +1,22 @@
-# ansible-server
+# Attention
+This repository don't supported.
+
+I recommend to follow in https://github.com/viasite-ansible and use roles with test badges.
+
+New `ansible-server` will be available at https://github.com/viasite-ansible/ansible-server, but at this time I cannot share it in open source.
+
+This repository worked well at begin of 2016, but it have many limitations:
+
+- not all roles idempotent
+- roles not tested with ci
+- roles not imdependent
+- very big `common` role
+- it worked for Ubuntu 14.04, not for 16.04
+- it not leverages Ansible 2.x features
+- it has only one playbook and relies on tags limit
+- test framework custom written on bash
+- variables has not scopes
+
 
 # Install
 ```
